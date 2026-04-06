@@ -317,4 +317,6 @@
         members: [person1, person2, child1, child2]
         state_fips: 10
   output:
-    de_income_tax: 359
+    # Per-column: $550 of $660 pre-EITC credits used (line 27a+27b),
+    # then NR EITC (~$50) applied to higher-income column (line 30).
+    de_income_tax: 309
