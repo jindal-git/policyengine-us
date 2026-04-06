@@ -182,9 +182,11 @@
     de_income_tax: 7361.32
 
 - name: Tax unit with taxsimid 2682 in h21.its.csv and h21.ots.csv
-  # TAXSIM35 pools credits; per-column allocation wastes ~$104 of
-  # head's aged credit (head tax ~$6 < $110 aged credit).
-  absolute_error_margin: 5
+  # TAXSIM35 ($2,429) pools credits.  Per-column allocation:
+  # - Aged credit on head column wasted (head tax ~$6 < $110)
+  # - CDCC on head column wasted (Line 31 goes to lower-income
+  #   spouse per PIT-RES instructions)
+  absolute_error_margin: 1
   period: 2021
   input:
     people:
@@ -227,8 +229,8 @@
       household:
         members: [person1, person2, person3]
         state_fips: 10  # DE
-  output:  # Per-column credits: ~$104 higher than TAXSIM35 (which pools)
-    de_income_tax: 2533
+  output:  # Per-column credits: higher than TAXSIM35 due to credit waste
+    de_income_tax: 2785.65
 
 - name: Tax unit with taxsimid 22359 in k21.its.csv and k21.ots.csv
   absolute_error_margin: 0.01
