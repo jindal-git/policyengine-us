@@ -35,6 +35,8 @@ class de_income_tax_before_refundable_credits(Variable):
         head_line33 = tax_unit.sum(is_head * line33)
         spouse_line33 = tax_unit.sum(is_spouse * line33)
 
+        # Tie-break: when taxable incomes are equal, head is treated
+        # as the higher-income spouse, so EITC routes to head.
         person_taxable = members("de_taxable_income_indv", period)
         head_taxable = tax_unit.sum(is_head * person_taxable)
         spouse_taxable = tax_unit.sum(is_spouse * person_taxable)

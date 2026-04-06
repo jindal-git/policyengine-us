@@ -43,6 +43,41 @@
     # Spouse gets remaining $20.
     de_personal_credit_indv: [200, 20]
 
+- name: personal credits exceed combined capacity
+  period: 2025
+  input:
+    people:
+      person1:
+        is_tax_unit_head: true
+        de_income_tax_before_non_refundable_credits_indv: 100
+      person2:
+        is_tax_unit_spouse: true
+        de_income_tax_before_non_refundable_credits_indv: 100
+      child1:
+        is_tax_unit_dependent: true
+        age: 8
+      child2:
+        is_tax_unit_dependent: true
+        age: 10
+      child3:
+        is_tax_unit_dependent: true
+        age: 12
+      child4:
+        is_tax_unit_dependent: true
+        age: 14
+    tax_units:
+      tax_unit:
+        members: [person1, person2, child1, child2, child3, child4]
+    households:
+      household:
+        members: [person1, person2, child1, child2, child3, child4]
+        state_code: DE
+  output:
+    # 6 exemptions × $110 = $660 personal credits.
+    # Combined capacity = $200; greedy allocates $100 to each.
+    # Excess $460 not allocated; will be wasted at Line 32 cap.
+    de_personal_credit_indv: [100, 100, 0, 0, 0, 0]
+
 - name: dependents add to total exemption count
   period: 2025
   input:

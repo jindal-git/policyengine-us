@@ -15,6 +15,8 @@ class de_cdcc_indv(Variable):
         # the tax imposed on the spouse with the lower taxable
         # income reported on Line 23."  Locked to the lower-income
         # spouse's column under combined separate filing.
+        # Tie-break: when taxable incomes are equal, head is treated
+        # as the higher-income spouse, so CDCC routes to spouse.
         is_head = person("is_tax_unit_head", period)
         is_spouse = person("is_tax_unit_spouse", period)
 

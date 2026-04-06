@@ -4,7 +4,7 @@ from policyengine_us.model_api import *
 class de_income_tax_after_non_refundable_credits_indv(Variable):
     value_type = float
     entity = Person
-    label = "Delaware tax after non-refundable credits when filing combined separate"
+    label = "Delaware per-person tax after non-refundable credits (PIT-RES Line 33)"
     unit = USD
     definition_period = YEAR
     reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=9"
@@ -14,6 +14,9 @@ class de_income_tax_after_non_refundable_credits_indv(Variable):
         # PIT-RES Line 33: balance after non-refundable credits
         # (Lines 27a, 27b, 31), capped per column at Line 26 tax.
         # EITC (Line 34) is applied later in the main variable.
+        # Note: Lines 28 (other state tax), 29 (volunteer firefighter),
+        # and 30 (PIT-CRS credits) are not implemented in PolicyEngine
+        # and therefore not allocated per-column here.
         is_head_or_spouse = person("is_tax_unit_head_or_spouse", period)
 
         # Line 26: column tax from rate table.
