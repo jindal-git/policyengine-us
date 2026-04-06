@@ -1,0 +1,72 @@
+- name: all personal credits to higher-capacity column
+  period: 2025
+  input:
+    people:
+      person1:
+        is_tax_unit_head: true
+        de_income_tax_before_non_refundable_credits_indv: 100
+      person2:
+        is_tax_unit_spouse: true
+        de_income_tax_before_non_refundable_credits_indv: 1_000
+    tax_units:
+      tax_unit:
+        members: [person1, person2]
+    households:
+      household:
+        members: [person1, person2]
+        state_code: DE
+  output:
+    # 2 exemptions × $110 = $220 personal credits.
+    # Spouse has more capacity ($1000 > $100), gets all $220.
+    de_personal_credit_indv: [0, 220]
+
+- name: split when neither column has full capacity
+  period: 2025
+  input:
+    people:
+      person1:
+        is_tax_unit_head: true
+        de_income_tax_before_non_refundable_credits_indv: 200
+      person2:
+        is_tax_unit_spouse: true
+        de_income_tax_before_non_refundable_credits_indv: 150
+    tax_units:
+      tax_unit:
+        members: [person1, person2]
+    households:
+      household:
+        members: [person1, person2]
+        state_code: DE
+  output:
+    # 2 exemptions × $110 = $220 personal credits.
+    # Head has more capacity ($200 > $150), gets $200.
+    # Spouse gets remaining $20.
+    de_personal_credit_indv: [200, 20]
+
+- name: dependents add to total exemption count
+  period: 2025
+  input:
+    people:
+      person1:
+        is_tax_unit_head: true
+        de_income_tax_before_non_refundable_credits_indv: 5_000
+      person2:
+        is_tax_unit_spouse: true
+        de_income_tax_before_non_refundable_credits_indv: 100
+      child1:
+        is_tax_unit_dependent: true
+        age: 8
+      child2:
+        is_tax_unit_dependent: true
+        age: 12
+    tax_units:
+      tax_unit:
+        members: [person1, person2, child1, child2]
+    households:
+      household:
+        members: [person1, person2, child1, child2]
+        state_code: DE
+  output:
+    # 4 exemptions × $110 = $440 personal credits.
+    # Head has more capacity ($5000 > $100), gets $440.
+    de_personal_credit_indv: [440, 0, 0, 0]
