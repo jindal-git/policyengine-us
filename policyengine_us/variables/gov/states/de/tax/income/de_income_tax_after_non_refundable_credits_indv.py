@@ -1,18 +1,20 @@
 from policyengine_us.model_api import *
 
 
-class de_fs4_line33(Variable):
+class de_income_tax_after_non_refundable_credits_indv(Variable):
     value_type = float
     entity = Person
-    label = (
-        "Delaware FS4 per-column balance after non-refundable credits (PIT-RES Line 33)"
-    )
+    label = "Delaware tax after non-refundable credits when filing combined separate"
     unit = USD
     definition_period = YEAR
     reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=9"
     defined_for = StateCode.DE
 
     def formula(person, period, parameters):
+        # PIT-RES Instructions p.5: "you must each report your own
+        # income, personal credits, deductions."  This computes each
+        # person's PIT-RES Line 33 (balance after non-refundable
+        # credits but before EITC) for combined separate filing.
         p = parameters(period).gov.states.de.tax.income.credits
         is_head = person("is_tax_unit_head", period)
         is_spouse = person("is_tax_unit_spouse", period)
