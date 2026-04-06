@@ -1,4 +1,21 @@
-- name: head 60+ gets credit, dependent does not
+- name: only head 60+, spouse under 60
+  period: 2025
+  input:
+    people:
+      person1:
+        age: 65
+        is_tax_unit_head: true
+      person2:
+        age: 50
+        is_tax_unit_spouse: true
+    households:
+      household:
+        members: [person1, person2]
+        state_code: DE
+  output:
+    de_aged_personal_credit_indv: [110, 0]
+
+- name: aged dependent does not get credit
   period: 2025
   input:
     people:
@@ -7,6 +24,8 @@
         is_tax_unit_head: true
       person2:
         age: 70
+        is_tax_unit_head: false
+        is_tax_unit_spouse: false
         is_tax_unit_dependent: true
     households:
       household:
