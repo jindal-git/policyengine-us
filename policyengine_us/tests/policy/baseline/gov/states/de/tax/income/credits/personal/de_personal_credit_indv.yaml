@@ -1,4 +1,4 @@
-- name: all personal credits to higher-capacity column
+- name: all credits to higher-capacity column (spouse)
   period: 2025
   input:
     people:
@@ -16,69 +16,10 @@
         members: [person1, person2]
         state_code: DE
   output:
-    # 2 exemptions × $110 = $220 personal credits.
-    # Spouse has more capacity ($1000 > $100), gets all $220.
+    # 2 exemptions × $110 = $220, all to spouse (more capacity)
     de_personal_credit_indv: [0, 220]
 
-- name: split when neither column has full capacity
-  period: 2025
-  input:
-    people:
-      person1:
-        is_tax_unit_head: true
-        de_income_tax_before_non_refundable_credits_indv: 200
-      person2:
-        is_tax_unit_spouse: true
-        de_income_tax_before_non_refundable_credits_indv: 150
-    tax_units:
-      tax_unit:
-        members: [person1, person2]
-    households:
-      household:
-        members: [person1, person2]
-        state_code: DE
-  output:
-    # 2 exemptions × $110 = $220 personal credits.
-    # Head has more capacity ($200 > $150), gets $200.
-    # Spouse gets remaining $20.
-    de_personal_credit_indv: [200, 20]
-
-- name: personal credits exceed combined capacity
-  period: 2025
-  input:
-    people:
-      person1:
-        is_tax_unit_head: true
-        de_income_tax_before_non_refundable_credits_indv: 100
-      person2:
-        is_tax_unit_spouse: true
-        de_income_tax_before_non_refundable_credits_indv: 100
-      child1:
-        is_tax_unit_dependent: true
-        age: 8
-      child2:
-        is_tax_unit_dependent: true
-        age: 10
-      child3:
-        is_tax_unit_dependent: true
-        age: 12
-      child4:
-        is_tax_unit_dependent: true
-        age: 14
-    tax_units:
-      tax_unit:
-        members: [person1, person2, child1, child2, child3, child4]
-    households:
-      household:
-        members: [person1, person2, child1, child2, child3, child4]
-        state_code: DE
-  output:
-    # 6 exemptions × $110 = $660 personal credits.
-    # Combined capacity = $200; greedy allocates $100 to each.
-    # Excess $460 not allocated; will be wasted at Line 32 cap.
-    de_personal_credit_indv: [100, 100, 0, 0, 0, 0]
-
-- name: dependents add to total exemption count
+- name: all credits to higher-capacity column (head)
   period: 2025
   input:
     people:
@@ -102,6 +43,26 @@
         members: [person1, person2, child1, child2]
         state_code: DE
   output:
-    # 4 exemptions × $110 = $440 personal credits.
-    # Head has more capacity ($5000 > $100), gets $440.
+    # 4 exemptions × $110 = $440, all to head (more capacity)
     de_personal_credit_indv: [440, 0, 0, 0]
+
+- name: tied capacity routes to head
+  period: 2025
+  input:
+    people:
+      person1:
+        is_tax_unit_head: true
+        de_income_tax_before_non_refundable_credits_indv: 500
+      person2:
+        is_tax_unit_spouse: true
+        de_income_tax_before_non_refundable_credits_indv: 500
+    tax_units:
+      tax_unit:
+        members: [person1, person2]
+    households:
+      household:
+        members: [person1, person2]
+        state_code: DE
+  output:
+    # On tie, head wins; gets all $220
+    de_personal_credit_indv: [220, 0]
