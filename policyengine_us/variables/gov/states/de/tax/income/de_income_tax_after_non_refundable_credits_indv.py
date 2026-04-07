@@ -7,7 +7,7 @@ class de_income_tax_after_non_refundable_credits_indv(Variable):
     label = "Delaware per-person tax after non-refundable credits (PIT-RES Line 33)"
     unit = USD
     definition_period = YEAR
-    reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=9"
+    reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=10"
     defined_for = StateCode.DE
 
     def formula(person, period, parameters):

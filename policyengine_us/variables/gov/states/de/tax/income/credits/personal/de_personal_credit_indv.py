@@ -7,7 +7,7 @@ class de_personal_credit_indv(Variable):
     label = "Delaware personal credit per person for combined separate filing"
     unit = USD
     definition_period = YEAR
-    reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=9"
+    reference = "https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf#page=8"
     defined_for = StateCode.DE
 
     def formula(person, period, parameters):

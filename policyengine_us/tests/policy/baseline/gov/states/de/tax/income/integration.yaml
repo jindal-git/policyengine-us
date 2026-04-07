@@ -283,7 +283,7 @@
   # From issue #7931: per-column credits produce higher tax than pooled
   # because one column's tax is too low to absorb its aged credit.
   period: 2025
-  absolute_error_margin: 10
+  absolute_error_margin: 0.5
   input:
     people:
       person1:
