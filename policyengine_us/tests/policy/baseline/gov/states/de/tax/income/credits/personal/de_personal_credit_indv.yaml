@@ -46,7 +46,7 @@
     # 4 exemptions × $110 = $440, all to head (more capacity)
     de_personal_credit_indv: [440, 0, 0, 0]
 
-- name: tied capacity routes to head
+- name: tied capacity splits evenly
   period: 2025
   input:
     people:
@@ -64,5 +64,5 @@
         members: [person1, person2]
         state_code: DE
   output:
-    # On tie, head wins; gets all $220
-    de_personal_credit_indv: [220, 0]
+    # Equal capacity: split evenly (both columns can absorb their share)
+    de_personal_credit_indv: [110, 110]
